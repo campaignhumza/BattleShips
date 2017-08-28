@@ -6,10 +6,6 @@ public class GameEngine {
 	
 	private Player player1;
 	private Player player2;
-	public enum Ships {
-		AIR_CRAFT_CARRIER, BATTLE_SHIP, SUBMARINE,
-		CRUISER, DESTROYER
-	}
 	
 	public GameEngine() {
 		this.player1 = new Player();
@@ -18,37 +14,48 @@ public class GameEngine {
 	
 	
 	public void run() {
-		//players place ships, player 1 always goes first 
-		//TO DO: roll dice to choose who goes first
 		Scanner reader = new Scanner(System.in);
 		player1.placeShips();
 		player2.placeShips();
-		player1.setisTurn(true);
-		player2.setisTurn(false);
 		String guesstimate;
-		while(!player1.isWin() && !player2.isWin()) {
+		boolean hit;
+		System.out.println("Instructions: enter position to bomb  as shown in grid e.g A10");
+		while(!player1.isLose() && !player2.isLose()) {
 			//player 1's turn
+			System.out.println(player1.toString());
+			System.out.println("Player 1's turn:");
 				guesstimate = reader.next();
-				while (!isValidGuess(guesstimate) || player2.guessAlreadyDone()) {
+				while (!isValidGuess(guesstimate) || player1.guessAlreadyDone(guesstimate)) {
 					guesstimate = reader.next();
 				}
-				player2.move(guesstimate);
-		
-			if (!player1.isWin()) {
+				hit = player2.isHit(guesstimate);
+				player1.oppsBoardUpdate(guesstimate,hit);
+				if(hit) {
+					player2.takeHit(guesstimate);
+				}
+				
 				//player 2's turn
+			if (!player2.isLose()) {
+				System.out.println(player2.toString());
+				System.out.println("Player 2's turn:");
 				guesstimate = reader.next();
-				while (!isValidGuess(guesstimate)) {
+				while (!isValidGuess(guesstimate) || player1.guessAlreadyDone(guesstimate)) {
 					guesstimate = reader.next();
 				}
-				player1.move(guesstimate);
+				hit = player1.isHit(guesstimate);
+				player2.oppsBoardUpdate(guesstimate,hit);
+				if(hit) {
+					player1.takeHit(guesstimate);
+				}
 			}
 		}
 		
 		reader.close();
-		if(player1.isWin()) {
-			System.out.println("Player 1 Wins");
-		} else {
+		
+		if(player2.isLose()) {
 			System.out.println("Player 2 Wins");
+		} else {
+			System.out.println("Player 1 Wins");
 		}
 	}
 	
