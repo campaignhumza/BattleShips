@@ -4,12 +4,15 @@ import java.util.Scanner;
 
 public class GameEngine {
 	
-	private Player player1;
-	private Player player2;
 	
+	/*
 	public GameEngine() {
 		this.player1 = new Player();
 		this.player2 = new Player();	
+	}
+	
+	public getOpponentsTurn() {
+		
 	}
 	
 	
@@ -53,9 +56,9 @@ public class GameEngine {
 		reader.close();
 		
 		if(player2.isLose()) {
-			System.out.println("Player 2 Wins");
-		} else {
 			System.out.println("Player 1 Wins");
+		} else {
+			System.out.println("Player 2 Wins");
 		}
 	}
 	
@@ -89,5 +92,5 @@ public class GameEngine {
 	public boolean isValidInt(int index) {
 		return (1 <= index && index <= 10 );
 	}
-	
+	*/
 }
